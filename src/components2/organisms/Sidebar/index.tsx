@@ -40,7 +40,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Dashboard",
-        route: "/",
+        route: "/lecturerlist",
         children: [
           { label: "Ruang Dosen 1", route: "#" },
           { label: "Ruang Dosen 2", route: "#" },
@@ -92,8 +92,8 @@ const menuGroups = [
             />
           </svg>
         ),
-        label: "Calendar",
-        route: "/calendar",
+        label: "Report",
+        route: "/report",
       },
       {
         icon: (
@@ -119,8 +119,12 @@ const menuGroups = [
             />
           </svg>
         ),
-        label: "Profile",
-        route: "/profile",
+        label: "Settings",
+        route: "#",
+        children: [
+          { label: "Account", route: "/settings/account" },
+          { label: "Lecturer Info", route: "/settings/information" },
+        ],
       },
       {
         icon: (
@@ -140,12 +144,8 @@ const menuGroups = [
             />
           </svg>
         ),
-        label: "Forms",
-        route: "#",
-        children: [
-          { label: "Form Elements", route: "/forms/form-elements" },
-          { label: "Form Layout", route: "/forms/form-layout" },
-        ],
+        label: "Devices",
+        route: "/settings/devices",
       },
       {
         icon: (
@@ -165,10 +165,12 @@ const menuGroups = [
             />
           </svg>
         ),
-        label: "Tables",
+        label: "CRUD",
         route: "#",
         children: [
-          { label: "Tables", route: "/tables" },
+          { label: "Users", route: "/crud/users" },
+          { label: "Lecturers", route: "/crud/lecturers" },
+          { label: "Devices", route: "/crud/devices" },
         ],
       },
       {
