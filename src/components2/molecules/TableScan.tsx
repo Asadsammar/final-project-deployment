@@ -18,7 +18,7 @@ const ScannedDev = () => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await axios.get('@/api/attendance');
+      const response = await axios.get('api/attendance');
       console.log('Fetched data:', response.data);  // Log the fetched data
       setAttendanceData(response.data);
     } catch (err) {
@@ -38,19 +38,6 @@ const ScannedDev = () => {
 
   const updateAttendanceData = async (id: string) => {
     // Implement update data logic
-  };
-
-  const deleteAttendanceData = async (id: string) => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      await axios.delete(`@/api/attendance/${id}`);
-      fetchAttendanceData(); // Refresh the data
-    } catch (err) {
-      setError('Error deleting data');
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   return (
