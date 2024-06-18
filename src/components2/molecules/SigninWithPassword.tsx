@@ -1,14 +1,39 @@
-"use client";
+'use client'
 import React, { useState } from "react";
+import axios from "axios";
+import { FormEvent } from 'react'
+import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation"
 import Link from "next/link";
+import { cookies } from "next/headers";
 
 export default function SigninWithPassword() {
+  
+  const router = useRouter();
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget)
+    const username = formData.get('username')
+    const password = formData.get('password')
+    const res = await axios.post('api/auth/login', {
+      method: 'POST',
+      body: {username, password}
+    });
+
+    if (res.status === 200) {
+      router.push('/lecturerlist');
+    } else {
+      alert('Invalid username or password');
+    }
+  };
+
   const [data, setData] = useState({
     remember: false,
   });
 
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div className="mb-4">
         <label
           htmlFor="username"
@@ -18,7 +43,7 @@ export default function SigninWithPassword() {
         </label>
         <div className="relative">
           <input
-            type="username"
+            type="text"
             placeholder="Enter your username"
             name="username"
             className="w-full rounded-lg border border-stroke bg-transparent py-[15px] pl-6 pr-11 font-medium text-dark outline-none focus:border-primary focus-visible:shadow-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"

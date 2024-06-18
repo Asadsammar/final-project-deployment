@@ -1,4 +1,4 @@
-import {device} from "@/types/device";
+import { device } from "types/device";
 
 const Devices: device[] = [
   {

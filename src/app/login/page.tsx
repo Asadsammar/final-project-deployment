@@ -1,15 +1,15 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Metadata } from "next";
 import Signin from "@/components2/organisms/Signin";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "LAMS Login Page",
   description: "Lecturer Attendance Monitoring System Login Page",
 };
 
-const SignIn: React.FC = () => {
+const SignIn = () => {
     return (
       <div className="justify-center bg-fuchsia-100">
         <div className="rounded-[10px] shadow-1 dark:bg-gray-dark dark:shadow-card">

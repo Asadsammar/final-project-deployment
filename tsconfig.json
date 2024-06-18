@@ -24,6 +24,7 @@
       "@/components/*": ["components/*"],
       "@/components2/*": ["components2/*"],
       "@/hooks/*": ["hooks/*"],
+      "@/css/*": ["css/*"],
       "@/app/api/*": ["app/api/*"],
     }
   },
