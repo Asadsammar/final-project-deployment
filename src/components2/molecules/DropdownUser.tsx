@@ -1,10 +1,43 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ClickOutside from "@/components/ClickOutside";
+import { useRouter } from "next/navigation";
+import { CookieValueTypes, getCookie } from "cookies-next";
+import { deleteCookie } from "cookies-next";
+
+type UserData = {
+  username: CookieValueTypes;
+  email: CookieValueTypes;
+  role_id: CookieValueTypes;
+};
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [userData, setUserData] = useState<UserData | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  
+  const router = useRouter();
+
+  const handleLogout = () => {
+    deleteCookie('username');
+    deleteCookie('role_id');
+    deleteCookie('email');
+    router.push("/login");
+  };
+  
+  
+  useEffect(() => {
+    const username = getCookie('username');
+    const email = getCookie('email');
+    const role_id = getCookie('role_id');
+    if (username === undefined) {
+      router.push('/login'); // Redirect to login page if username cookie is undefined
+    } else{
+    const us = { username, email, role_id };
+    setUserData(us);
+    }
+  }, []);
 
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
@@ -13,13 +46,11 @@ const DropdownUser = () => {
         className="flex items-center gap-4"
         href="#"
       >
-
-
         <span className="flex items-center gap-2 font-medium text-dark dark:text-dark-6">
         <span className="h-12 w-12 rounded-full">
         <svg xmlns="http://www.w3.org/2000/svg" width="47" height="47" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M5.52 19c.64-2.2 1.84-3 3.22-3h6.52c1.38 0 2.58.8 3.22 3"/><circle cx="12" cy="10" r="3"/><circle cx="12" cy="12" r="10"/></svg>
         </span>
-          <span className="hidden lg:block text-white">Jhon Smith</span>
+          <span className="hidden lg:block text-white">{userData?.username}</span>
 
           <svg
             className={`fill-current duration-200 ease-in ${dropdownOpen && "rotate-180"}`}
@@ -49,10 +80,10 @@ const DropdownUser = () => {
 
             <span className="block">
               <span className="block font-medium text-dark dark:text-white">
-                Jhon Smith
+                {userData?.username}  
               </span>
               <span className="block font-medium text-dark-5 dark:text-dark-6">
-                jonson@nextadmin.com
+                {userData?.email}
               </span>
             </span>
           </div>
@@ -118,7 +149,7 @@ const DropdownUser = () => {
             </li>
           </ul>
           <div className="p-2.5">
-            <button className="flex w-full items-center gap-2.5 rounded-[7px] p-2.5 text-sm font-medium text-dark-4 duration-300 ease-in-out hover:bg-red-500 hover:text-dark dark:text-dark-6 dark:hover:bg-dark-3 dark:hover:text-white lg:text-base">
+            <button onClick={handleLogout} className="flex w-full items-center gap-2.5 rounded-[7px] p-2.5 text-sm font-medium text-dark-4 duration-300 ease-in-out hover:bg-red-500 hover:text-dark dark:text-dark-6 dark:hover:bg-dark-3 dark:hover:text-white lg:text-base">
               <svg
                 className="fill-current"
                 width="18"

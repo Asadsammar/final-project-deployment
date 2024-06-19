@@ -2,17 +2,15 @@
 import React, { useState, ReactNode, useEffect } from "react";
 import Sidebar from "@/components2/organisms/Sidebar";
 import Header from "@/components2/organisms/Header";
-import { useRouter } from "next/navigation";
-import axios from "axios";
+import { getCookie } from "cookies-next";
+import { useRouter } from "next/router";
 
 export default function DefaultLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const router = useRouter();
 
   return (
     <>

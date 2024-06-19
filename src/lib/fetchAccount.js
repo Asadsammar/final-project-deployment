@@ -7,7 +7,7 @@ const bigquery = new BigQuery({
 });
 
 export async function fetchAccount(username) {
-  const query = `SELECT username, password, role_id FROM lecturer_attendance.user WHERE username = @username LIMIT 1`;
+  const query = `SELECT username, password, role_id, email FROM lecturer_attendance.user WHERE username = @username LIMIT 1`;
   const options = {
     query: query,
     params: { username: username }

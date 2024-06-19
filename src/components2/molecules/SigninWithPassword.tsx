@@ -4,7 +4,8 @@ import { FormEvent } from 'react'
 import { useCallback, useState, ChangeEvent } from "react";
 import { useRouter } from "next/navigation"
 import Link from "next/link";
-import { cookies } from "next/headers";
+import { parse } from "cookie";
+import { setCookie } from "cookies-next";
 
 export default function SigninWithPassword() {
   const router = useRouter();
@@ -14,7 +15,7 @@ export default function SigninWithPassword() {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     if (username.trim() === '' || password.trim() === '') {
       alert('Please fill in both username and password fields.');
-      return;
+      return;   
     }
     event.preventDefault();
     const res = await fetch('api/login', {
@@ -26,6 +27,11 @@ export default function SigninWithPassword() {
     });
 
     if (res.ok) {
+      const data = await res.json();
+      setCookie('username', data.username, { maxAge: 60 * 60 * 24 * 30 });
+      setCookie('role_id', data.role_id, { maxAge: 60 * 60 * 24 * 30 });
+      setCookie('email', data.email, { maxAge: 60 * 60 * 24 * 30 });
+      console.log(data.email);
       router.push('/lecturerlist');
     } else {
       alert('Invalid Username or Password');
