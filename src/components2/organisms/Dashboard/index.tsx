@@ -2,7 +2,7 @@
 import React from "react";
 import LecturerCard from "@/components2/molecules/LecturerCard";
 import SearchForm from "@/components2/atoms/SearchForm";
-
+import { NextResponse } from 'next/server'
 const Dashboard: React.FC = () => {
   return (
     <>

@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import AddDevice from "@/components2/atoms/AddButton";
+import AddDevice from "@/components2/atoms/AddDevice";
 import TableDevice from "@/components2/molecules/TableDevice";
 
 const Devices: React.FC = () => {

@@ -1,36 +1,50 @@
 'use client'
-import React, { useState } from "react";
-import axios from "axios";
+import React from "react";
 import { FormEvent } from 'react'
-import { redirect } from "next/navigation";
+import { useCallback, useState, ChangeEvent } from "react";
 import { useRouter } from "next/navigation"
 import Link from "next/link";
 import { cookies } from "next/headers";
 
 export default function SigninWithPassword() {
-  
   const router = useRouter();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    if (username.trim() === '' || password.trim() === '') {
+      alert('Please fill in both username and password fields.');
+      return;
+    }
     event.preventDefault();
-    const formData = new FormData(event.currentTarget)
-    const username = formData.get('username')
-    const password = formData.get('password')
-    const res = await axios.post('api/auth/login', {
+    const res = await fetch('api/login', {
       method: 'POST',
-      body: {username, password}
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password })
     });
 
-    if (res.status === 200) {
+    if (res.ok) {
       router.push('/lecturerlist');
     } else {
-      alert('Invalid username or password');
+      alert('Invalid Username or Password');
     }
   };
 
   const [data, setData] = useState({
     remember: false,
   });
+
+  const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setUsername(event.target.value);
+  };
+
+  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
+
+  
 
   return (
     <form onSubmit={handleSubmit}>
@@ -46,6 +60,7 @@ export default function SigninWithPassword() {
             type="text"
             placeholder="Enter your username"
             name="username"
+            onChange={handleUsernameChange}
             className="w-full rounded-lg border border-stroke bg-transparent py-[15px] pl-6 pr-11 font-medium text-dark outline-none focus:border-primary focus-visible:shadow-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
           />
 
@@ -68,6 +83,7 @@ export default function SigninWithPassword() {
             name="password"
             placeholder="Enter your password"
             autoComplete="password"
+            onChange={handlePasswordChange}
             className="w-full rounded-lg border border-stroke bg-transparent py-[15px] pl-6 pr-11 font-medium text-dark outline-none focus:border-primary focus-visible:shadow-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
           />
 
