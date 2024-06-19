@@ -14,13 +14,7 @@ export const config = {
 
 export default async function handler(req, res) {
     try {
-        const query = `SELECT * FROM (
-  SELECT * FROM lecturer_attendance.attendance
-INNER JOIN lecturer_attendance.device USING (macAddress)
-INNER JOIN lecturer_attendance.lecturer USING (lecturer_id)
-) AS tableData
-INNER JOIN lecturer_attendance.user ON tableData.user_username = user.username
-ORDER BY timestamp DESC
+        const query = `SELECT user.*, lecturer.* FROM lecturer_attendance.lecturer INNER JOIN lecturer_attendance.user ON lecturer.user_username = user.username
 LIMIT 1000`; // Update with your actual dataset
         const options = {
           query: query,

@@ -28,7 +28,17 @@ const nextConfig = {
         hostname: "fastly.picsum.photos",
         port: "",
         pathname: "/**"
-      }
+      },
+      {
+        protocol: "https",
+        hostname: "firebasestorage.googleapis.com",
+        port: "",
+        pathname: "/**"
+      },
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
     ]
   }
 };

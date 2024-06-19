@@ -13,6 +13,7 @@
     "@nextui-org/button": "^2.0.33",
     "@nextui-org/modal": "^2.0.35",
     "@types/axios": "^0.14.0",
+    "@types/firebase": "^3.2.1",
     "apexcharts": "^3.45.2",
     "axios": "^1.7.2",
     "bcryptjs": "^2.4.3",

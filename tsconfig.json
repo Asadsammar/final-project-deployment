@@ -25,8 +25,10 @@
       "@/components2/*": ["components2/*"],
       "@/hooks/*": ["hooks/*"],
       "@/css/*": ["css/*"],
+      "@/config/*": ["config/*"],
       "@/lib/*": ["lib/*"],
       "@/app/api/*": ["app/api/*"],
+      "@/pages/*": ["pages/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src"],

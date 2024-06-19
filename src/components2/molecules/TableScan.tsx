@@ -4,7 +4,7 @@ import fetchAttendance from '@/lib/attendance';
 
 type AttendanceData = {
   timestamp: { value: string };
-  scannerId: string;
+  name: string;
   scanTime: { value: string };
   macAddress: string;
 };
@@ -60,7 +60,7 @@ const ScannedDev = () => {
           <thead>
             <tr className="bg-[#F7F9FC] text-left dark:bg-dark-2">
               <th className="min-w-[220px] px-4 py-4 font-medium text-dark dark:text-white xl:pl-7.5">
-                Scanner ID
+                Lecturer Name
               </th>
               <th className="min-w-[150px] px-4 py-4 font-medium text-dark dark:text-white">
                 MAC Address
@@ -80,7 +80,7 @@ const ScannedDev = () => {
                   className={`border-[#eee] px-4 py-4 dark:border-dark-3 xl:pl-7.5 ${index === attendanceData.length - 1 ? "border-b-0" : "border-b"}`}
                 >
                   <h5 className="text-dark dark:text-white">
-                    {data.scannerId}
+                    {data.name}
                   </h5>
                 </td>
                 <td
