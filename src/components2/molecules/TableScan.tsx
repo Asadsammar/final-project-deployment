@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import axios from "axios";
+import fetchAttendance from '@/lib/attendance';
 
 type AttendanceData = {
   timestamp: { value: string };
@@ -18,9 +18,17 @@ const ScannedDev = () => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await axios.get('api/attendance');
-      console.log('Fetched data:', response.data);  // Log the fetched data
-      setAttendanceData(response.data);
+      const res = await fetch('/api/attendance', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await res.json();
+      setAttendanceData(data);
     } catch (err) {
       setError('Error fetching data');
     } finally {

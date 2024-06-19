@@ -7,14 +7,12 @@ const bigquery = new BigQuery({
   projectId: 'quick-pointer-414903', // Replace with your Google Cloud Project ID
 });
 
-export async function GET(req: NextRequest) {
-  try {
+export default async function fetchAttendance() {
     const query = `SELECT * FROM lecturer_attendance.attendance LIMIT 10`; // Update with your actual dataset
-    const [rows] = await bigquery.query(query);
+    const options = {
+      query: query,
+    };
+    const [rows] = await bigquery.query(options);
 
-    return NextResponse.json(rows, { status: 200 });
-  } catch (error) {
-    console.error('Error querying BigQuery:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
+    return rows;
 }
