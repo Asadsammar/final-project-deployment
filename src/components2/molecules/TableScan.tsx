@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import fetchAttendance from '@/lib/attendance';
+import FilterDate from './FilterDate';
 
 type AttendanceData = {
   timestamp: { value: string };
@@ -12,6 +13,7 @@ type AttendanceData = {
 const ScannedDev = () => {
   const [attendanceData, setAttendanceData] = useState<AttendanceData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [filteredData, setFilteredData] = useState<AttendanceData[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   const fetchAttendanceData = async () => {
@@ -29,6 +31,7 @@ const ScannedDev = () => {
       }
       const data = await res.json();
       setAttendanceData(data);
+      setFilteredData(data);
     } catch (err) {
       setError('Error fetching data');
     } finally {
@@ -40,13 +43,29 @@ const ScannedDev = () => {
     fetchAttendanceData();
   }, []);
 
-  const addAttendanceData = async () => {
-    // Implement add data logic
+  const handleFilter = async (filters: { before: string; after: string }) => {
+    try {
+      const res = await fetch('/api/filterattendance', {
+        method: 'POST', // Use POST for sending filters
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(filters), // Send filters in the body
+      });
+  
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const data = await res.json();
+      setFilteredData(data);
+    } catch (error) {
+      console.error('Error fetching filtered data:', error);
+      setError('Error fetching filtered data');
+    }
   };
-
-  const updateAttendanceData = async (id: string) => {
-    // Implement update data logic
-  };
+  
+  
 
   return (
     <div className="rounded-[10px] border border-stroke bg-white p-4 shadow-1 dark:border-dark-3 dark:bg-gray-dark dark:shadow-card sm:p-7.5">
@@ -56,6 +75,9 @@ const ScannedDev = () => {
         <p className="text-red-500">{error}</p>
       ) : (
       <div className="max-w-full overflow-x-auto">
+        <div className='m-5'>
+          <FilterDate onSubmit={handleFilter} />
+        </div>
         <table className="w-full table-auto">
           <thead>
             <tr className="bg-[#F7F9FC] text-left dark:bg-dark-2">
@@ -74,7 +96,7 @@ const ScannedDev = () => {
             </tr>
           </thead>
           <tbody>
-            {attendanceData.map((data, index) => (
+            {filteredData.map((data, index) => (
               <tr key={index}>
                 <td
                   className={`border-[#eee] px-4 py-4 dark:border-dark-3 xl:pl-7.5 ${index === attendanceData.length - 1 ? "border-b-0" : "border-b"}`}

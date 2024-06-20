@@ -1,7 +1,20 @@
 import flatpickr from "flatpickr";
-import { useEffect } from "react";
+import React from "react";
+import { useEffect, useState } from "react";
 
-const FilterDate = () => {
+type FilterDateProps = {
+  onSubmit: (filters: { before: string; after: string }) => void;
+};
+
+const FilterDate = ({ onSubmit }:FilterDateProps) => {
+  const [before, setBefore] = useState("");
+  const [after, setAfter] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSubmit({ before, after});
+  };
+
   useEffect(() => {
     // Init flatpickr
     flatpickr(".form-datepicker", {
@@ -17,17 +30,18 @@ const FilterDate = () => {
   }, []);
 
   return (
-    <form action="" className="">
+    <form action="" onSubmit={handleSubmit} className="">
         <div className="flex flex-row gap-6">
         <div className="w-full">
       <label className="mb-3 block text-body-sm font-medium text-dark-6 dark:text-white">
         From
       </label>
       <div className="relative">
-        <input
+        <input onChange={(e) => setBefore(e.target.value)}
           className="form-datepicker w-full rounded-[7px] border-[1.5px] border-stroke bg-white dark:bg-dark-2 px-5 py-3 font-normal outline-none transition focus:border-primary active:border-primary dark:border-dark-3 dark:bg-dark-2 dark:focus:border-primary"
-          placeholder="mm/dd/yyyy"
+          placeholder="yyyy-mm-dd"
           data-class="flatpickr-right"
+          value={before}
         />
 
         <div className="pointer-events-none absolute inset-0 left-auto right-5 flex items-center">
@@ -76,10 +90,11 @@ const FilterDate = () => {
         To
       </label>
       <div className="relative">
-        <input
+        <input onChange={(e) => setAfter(e.target.value)}
           className="form-datepicker w-full rounded-[7px] border-[1.5px] border-stroke bg-white dark:bg-dark-2 px-5 py-3 font-normal outline-none transition focus:border-primary active:border-primary dark:border-dark-3 dark:bg-dark-2 dark:focus:border-primary"
-          placeholder="mm/dd/yyyy"
+          placeholder="yyyy-mm-dd"
           data-class="flatpickr-right"
+          value={after}
         />
 
         <div className="pointer-events-none absolute inset-0 left-auto right-5 flex items-center">

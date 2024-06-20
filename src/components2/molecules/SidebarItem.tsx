@@ -2,13 +2,12 @@ import React from "react";
 import Link from "next/link";
 import SidebarDropdown from "@/components2/atoms/SidebarDropdown";
 
-const SidebarItem = ({ item, pageName, setPageName }: any) => {
+const SidebarItem = ({ item, pageName, setPageName, rolecookie }: any) => {
   const handleClick = () => {
     const updatedPageName =
       pageName !== item.label.toLowerCase() ? item.label.toLowerCase() : "";
     return setPageName(updatedPageName);
   };
-
   return (
     <>
       <li>

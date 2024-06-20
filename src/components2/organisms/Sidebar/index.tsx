@@ -1,12 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import SidebarItem from "@/components2/molecules/SidebarItem";
 import ClickOutside from "@/components/ClickOutside";
 import useLocalStorage from "@/hooks/useLocalStorage";
+import { CookieValueTypes, getCookie } from "cookies-next";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -41,6 +42,7 @@ const menuGroups = [
         ),
         label: "Dashboard",
         route: "/lecturerlist",
+        role: "5",
         children: [
           { label: "Ruang Dosen 1", route: "#" },
           { label: "Ruang Dosen 2", route: "#" },
@@ -94,6 +96,7 @@ const menuGroups = [
         ),
         label: "Report",
         route: "/report",
+        role: "4"
       },
       {
         icon: (
@@ -123,7 +126,7 @@ const menuGroups = [
         route: "#",
         children: [
           { label: "Account", route: "/settings/account" },
-          { label: "Lecturer Info", route: "/settings/information" },
+          { label: "Lecturer Info", route: "/settings/information", role: 3 },
         ],
       },
       {
@@ -146,6 +149,7 @@ const menuGroups = [
         ),
         label: "Devices",
         route: "/settings/devices",
+        role: "3",
       },
       {
         icon: (
@@ -305,8 +309,13 @@ const menuGroups = [
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const pathname = usePathname();
-
+  const [rolecookie, setRole] = useState<string | null>(null);
   const [pageName, setPageName] = useLocalStorage("selectedMenu", "dashboard");
+
+  useEffect(() => {
+    const role = getCookie("role_id");
+    setRole(JSON.stringify(role));
+  }, []);
 
   return (
     <ClickOutside onClick={() => setSidebarOpen(false)}>
@@ -356,6 +365,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       item={menuItem}
                       pageName={pageName}
                       setPageName={setPageName}
+                      role_cookie = {rolecookie}
                     />
                   ))}
                 </ul>
